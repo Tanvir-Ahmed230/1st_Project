@@ -1,5 +1,5 @@
 
-002-Preparecourseresultsmodule[Dependency:001]
+
 003-AddCGPAcalculator[Dependency:002]
 004-EnableIncompleteCourses[Dependency:003]
 005-ShowIndividualSemesterGPA[Dependency:003]
