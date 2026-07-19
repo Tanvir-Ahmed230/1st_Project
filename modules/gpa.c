@@ -7,6 +7,9 @@ const char *gradeLetters[] = {"A+", "A", "A-", "B+", "B", "B-", "C+", "C", "D"};
 
 double getPercentage(CourseResult result)
 {
+    if (result.course == NULL || result.course->credit <= 0.0 || result.marks < 0.0)
+        return 0.0;
+
     double full_marks = result.course->credit * 100.0;
     if (full_marks <= 0.0)
         return 0.0;
@@ -17,7 +20,7 @@ double getGradePoint(CourseResult result)
 {
     double percentage = getPercentage(result);
 
-    if (result.course == NULL || result.course->credit <= 0.0)
+    if (result.course == NULL || result.course->credit <= 0.0 || result.marks < 0.0)
         return 0.0;
 
     for (int i = 0; i < 9; i++)
@@ -33,7 +36,7 @@ char *getLetterGrade(CourseResult result)
 {
     double percentage = getPercentage(result);
 
-    if (result.course == NULL || result.course->credit <= 0.0)
+    if (result.course == NULL || result.course->credit <= 0.0 || result.marks < 0.0)
         return "I";
 
     for (int i = 0; i < 9; i++)
@@ -52,7 +55,7 @@ double calculateGPA(CourseResult results[], int n_results)
 
     for (int i = 0; i < n_results; i++)
     {
-        if (results[i].course == NULL || results[i].course->credit <= 0.0)
+        if (results[i].course == NULL || results[i].course->credit <= 0.0 || results[i].marks < 0.0)
             continue;
         weighted_points += getGradePoint(results[i]) * results[i].course->credit;
         total_credits += results[i].course->credit;
