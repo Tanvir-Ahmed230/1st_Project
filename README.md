@@ -1,32 +1,44 @@
 # In IUT, CGPA Matters
+
 A modular C project for calculating CGPA.
 
 ##Linux
 Build:
+
 ```
-chmod+xmake.sh
+chmod +x make.sh
 ./make.sh
 ```
+
 Test:
+
 ```
-chmod+xtest.sh
+chmod +x test.sh
 ./test.sh
 ```
+
 Run:
+
 ```
-chmod+xcalculator.out
+chmod +x calculator.out
 ./calculator.out
 ```
+
 ##Windows(PowerShell)
 Build:
+
 ```
 .\make.ps1
 ```
+
 Test:
+
 ```
 .\test.ps1
 ```
+
 Run:
+
 ```
 .\calculator.exe
 ```
