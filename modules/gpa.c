@@ -6,6 +6,9 @@ const char *gradeLetters[] = {"A+", "A", "A-", "B+", "B", "B-", "C+", "C", "D"};
 
 double getPercentage(CourseResult result)
 {
+    if (result.course == 0 || result.course->credit <= 0.0 || result.marks < 0.0)
+        return 0.0;
+
     double full_marks = result.course->credit * 100.0;
     if (full_marks <= 0.0)
         return 0.0;
@@ -16,7 +19,7 @@ double getGradePoint(CourseResult result)
 {
     double percentage = getPercentage(result);
 
-    if (!result.completed)
+    if (result.course == 0 || result.course->credit <= 0.0 || result.marks < 0.0)
         return 0.0;
 
     for (int i = 0; i < 9; i++)
@@ -32,7 +35,7 @@ char *getLetterGrade(CourseResult result)
 {
     double percentage = getPercentage(result);
 
-    if (!result.completed)
+    if (result.course == 0 || result.course->credit <= 0.0 || result.marks < 0.0)
         return "I";
 
     for (int i = 0; i < 9; i++)
@@ -51,7 +54,7 @@ double calculateGPA(CourseResult results[], int n_results)
 
     for (int i = 0; i < n_results; i++)
     {
-        if (!results[i].completed)
+        if (results[i].course == 0 || results[i].course->credit <= 0.0 || results[i].marks < 0.0)
             continue;
         weighted_points += getGradePoint(results[i]) * results[i].course->credit;
         total_credits += results[i].course->credit;
@@ -60,4 +63,15 @@ double calculateGPA(CourseResult results[], int n_results)
     if (total_credits == 0.0)
         return 0.0;
     return weighted_points / total_credits;
+}
+
+double calculateExpectedCGPA(double current_cgpa, double completed_credits,
+                             double expected_gpa, double future_credits)
+{
+    double total_credits = completed_credits + future_credits;
+    if (total_credits <= 0.0)
+        return 0.0;
+    return ((current_cgpa * completed_credits) +
+            (expected_gpa * future_credits)) /
+           total_credits;
 }

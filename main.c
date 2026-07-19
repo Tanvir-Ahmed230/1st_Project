@@ -1,45 +1,31 @@
 #include <stdio.h>
 #include "course.h"
 #include "courseResult.h"
-#include "gpa.h"
+#include "student.h"
 
 int main()
 {
-    Course courses[1000];
-    CourseResult results[1000];
-    int n_courses = 0;
+    Course cse4107 = createCourse("CSE 4107", "Structured Programming I", 3.0, 1);
+    Course cse4108 = createCourse("CSE 4108", "Structured Programming I Lab", 1.5, 1);
 
-    courses[n_courses++] = createCourse("CSE 4107", "Structured Programming I", 3.0);
-    courses[n_courses++] = createCourse("CSE 4108", "Structured Programming I Lab", 1.5);
-    courses[n_courses++] = createCourse("CSE 4203", "Discrete Mathematics", 3.0);
+    Student students[3] = {
+        createStudent("240041001", "Alice"),
+        createStudent("240041002", "Bob"),
+        createStudent("240041003", "Carol")};
 
-    for (int i = 0; i < n_courses; i++)
+    addCourseResultToStudent(&students[0], createCompletedCourseResult(&cse4107, 252));
+    addCourseResultToStudent(&students[0], createCompletedCourseResult(&cse4108, 135));
+    addCourseResultToStudent(&students[1], createCompletedCourseResult(&cse4107, 228));
+    addCourseResultToStudent(&students[1], createCompletedCourseResult(&cse4108, 123));
+    addCourseResultToStudent(&students[2], createCompletedCourseResult(&cse4107, 273));
+    addCourseResultToStudent(&students[2], createCompletedCourseResult(&cse4108, 130.5));
+
+    sortStudentsByCGPA(students, 3);
+    for (int i = 0; i < 3; i++)
     {
-        int choice;
-        printf("%s: %s Completed?\n", courses[i].code, courses[i].name);
-        printf("1. YES.\n");
-        printf("2. NO.\n");
-        printf("Enter Choice: ");
-        scanf("%d", &choice);
-        if (choice == 2)
-        {
-            results[i] = createIncompleteCourseResult(&courses[i]);
-            continue;
-        }
-
-        double marks;
-        printf("Marks for %s: ", courses[i].name);
-        scanf("%lf", &marks);
-        results[i] = createCompletedCourseResult(&courses[i], marks);
+        printf("%d. ", i + 1);
+        viewStudent(students[i]);
     }
-
-    printf("\nResults\n");
-    for (int i = 0; i < n_courses; i++)
-    {
-        viewCourseResult(results[i]);
-        printf("Grade: %s\n", getLetterGrade(results[i]));
-    }
-    printf("CGPA: %.2f\n", calculateGPA(results, n_courses));
 
     return 0;
 }
